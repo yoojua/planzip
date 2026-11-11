@@ -1,0 +1,25 @@
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Java / Gradle
+**/.gradle/
+**/build/
+*.class
+
+# Node / Vite
+**/node_modules/
+**/dist/
+**/coverage/
+*.tsbuildinfo
+
+# Editor and OS files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Local logs
+*.log

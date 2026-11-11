@@ -1,0 +1,41 @@
+name: planzip
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${PLANZIP_DB_NAME:-planzip}
+      MYSQL_USER: ${PLANZIP_DB_USER:-planzip}
+      MYSQL_PASSWORD: ${PLANZIP_DB_PASSWORD:?Set PLANZIP_DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${PLANZIP_MYSQL_ROOT_PASSWORD:?Set PLANZIP_MYSQL_ROOT_PASSWORD in .env}
+      TZ: UTC
+    ports:
+      - "127.0.0.1:${PLANZIP_DB_PORT:-13306}:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+00:00
+    volumes:
+      - mysql-chapter02-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--host=127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${PLANZIP_REDIS_PORT:-16379}:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mysql-chapter02-data:

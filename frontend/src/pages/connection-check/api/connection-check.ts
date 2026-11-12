@@ -4,6 +4,7 @@ export interface HealthResponse {
   status: string
   service: string
   database: string
+  message: string
 }
 
 export function checkHealth() {

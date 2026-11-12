@@ -16,9 +16,9 @@ class HealthController {
     @GetMapping("/api/health")
     HealthResponse health() {
         jdbcTemplate.queryForObject("SELECT 1", Integer.class);
-        return new HealthResponse("UP", "plan.zip", "UP");
+        return new HealthResponse("UP", "plan.zip", "UP", "첫 API 연결 확인");
     }
 
-    record HealthResponse(String status, String service, String database) {
+    record HealthResponse(String status, String service, String database, String message) {
     }
 }
